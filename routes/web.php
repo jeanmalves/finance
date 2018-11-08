@@ -15,7 +15,8 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/user/edit', 'UserController@edit')->name('userEdit');
-    Route::get('/settings/edit', 'SettingsController@edit')->name('settingsEdit');
+    Route::get('/user/edit', 'UserController@edit')->name('user.edit');
+    Route::get('/settings', 'SettingsController@index')->name('settings.list');
+    Route::get('/settings/edit', 'SettingsController@edit')->name('settings.edit');
 });
 
