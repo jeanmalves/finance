@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
-    public function show()
+    public function index()
     {
-        return view('settings.show', ['user' => auth()->user()->id]);
+        return view('settings.index', ['user' => auth()->user()->id]);
     }
 
     public function edit()
