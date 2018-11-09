@@ -8,11 +8,15 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        return view('settings.index', ['user' => auth()->user()->id]);
+        $settings = auth()->user()->settings;
+
+        return view('settings.index', compact('settings'));
     }
 
     public function edit()
     {
-        return view('settings.edit', ['user' => auth()->user()->id]);
+        $settings = auth()->user()->settings;
+
+        return view('settings.edit', compact('settings'));
     }
 }

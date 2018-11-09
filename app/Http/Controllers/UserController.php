@@ -8,6 +8,8 @@ class UserController extends Controller
 {
     public function edit()
     {
-        return view('user.edit', ['user' => auth()->user()->id]);
+        $user = auth()->user();
+
+        return view('user.edit', compact('user'));
     }
 }
