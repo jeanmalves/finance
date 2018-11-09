@@ -129,7 +129,7 @@ return [
         ],
         [
             'text' => 'App',
-            'url'  => '/settings/edit',
+            'url'  => '/settings',
             'icon' => 'cogs',
         ],
         [
