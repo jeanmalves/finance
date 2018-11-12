@@ -21,5 +21,13 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/settings', 'SettingsController@index')->name('settings');
     Route::get('/settings/edit', 'SettingsController@edit')->name('settings.edit');
+
+    Route::get('/categories', 'CategoryController@index');
+    Route::get('/categories/create', 'CategoryController@create');
+    Route::post('/categories', 'CategoryController@store');
+    Route::get('/categories/{id}', 'CategoryController@show');
+    Route::get('/categories/{id}/edit', 'CategoryController@edit');
+    Route::put('/categories/{id}', 'CategoryController@update');
+    Route::delete('/categories/{id}', 'CategoryController@destroy');
 });
 
