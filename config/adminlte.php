@@ -115,8 +115,8 @@ return [
             'can'  => 'manage-blog',
         ],
         [
-            'text'        => 'Pages',
-            'url'         => 'admin/pages',
+            'text'        => 'Categorias de lançamento',
+            'url'         => '/categories',
             'icon'        => 'file',
             'label'       => 4,
             'label_color' => 'success',
