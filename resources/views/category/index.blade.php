@@ -18,9 +18,7 @@
 @section('content')
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4>
-            <i class="icon fa fa-check"></i>
-        </h4>
+        <h4></h4>
     </div>
     <div class="box box-default color-palette-box">
         <div class="box-header with-border">
@@ -42,7 +40,7 @@
                                 <div class="box-body">
                                     <div id="fg-category-name" class="form-group">
                                         <label for="category-name">Categoria</label>
-                                        <input type="name" class="form-control" id="category-name" placeholder="Digite a categoria">
+                                        <input type="text" name="name" class="form-control" id="category-name" placeholder="Digite a categoria">
                                     </div>
                                     <div id="fg-category-type" class="form-group">
                                         <label for="category-type">Tipo da categoria</label>
@@ -74,62 +72,67 @@
     </div>
 @stop
 @push('js')
-<script type="text/javascript">
-    $('.alert-success').hide();
-    $('#modal-default').on('hidden.bs.modal', function(e){
-        resetErrorForm();
-    });
+    <script type="text/javascript">
+        $('.alert-success').hide();
+        $('.alert-success').find('h4').text('');
+        $('#modal-default').on('hidden.bs.modal', function(e) {
+            console.log('grfger');
 
-    $('#category-form').submit((e) => {
-        e.preventDefault();
-        resetErrorForm();
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+            resetForm();
         });
 
-        $.ajax({
-            url: $('#category-form').attr('action'),
-            method: 'POST',
-            data: {
-                name: $('#category-name').val(),
-                type: $('#category-type').children('option:selected').val()
-            },
-            success: (result) => {
-                if (result.errors) {
-                    if (result.errors.name) {
-                        $('#category-form').find('#fg-category-name').addClass('has-error');
-                        $('#category-form').find('#fg-category-name').append(
-                            '<span class="help-block">' +
-                            '    <strong>' + result.errors.name + '</strong>' +
-                            '</span>');
-                    }
+        $('#category-form').submit((e) => {
+            e.preventDefault();
 
-                    if (result.errors.type) {
-                        $('#category-form').find('#fg-category-type').addClass('has-error');
-                        $('#category-form').find('#fg-category-type').append(
-                            '<span class="help-block">' +
-                            '    <strong>' + result.errors.type + '</strong>' +
-                            '</span>');
-                    }
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
 
-                $('#modal-default').modal('hide');
-                $('.alert-success').show();
-            },
-            error: (err) => {
-                console.log(err);
-            }
+            $.ajax({
+                url: $('#category-form').attr('action'),
+                method: 'POST',
+                data: {
+                    name: $('#category-name').val(),
+                    type: $('#category-type').children('option:selected').val()
+                },
+                success: (result) => {
+                    if (result.errors) {
+                        if (result.errors.name) {
+                            $('#category-form').find('#fg-category-name').addClass('has-error');
+                            $('#category-form').find('#fg-category-name').append(
+                                '<span class="help-block">' +
+                                '    <strong>' + result.errors.name + '</strong>' +
+                                '</span>');
+                        }
+
+                        if (result.errors.type) {
+                            $('#category-form').find('#fg-category-type').addClass('has-error');
+                            $('#category-form').find('#fg-category-type').append(
+                                '<span class="help-block">' +
+                                '    <strong>' + result.errors.type + '</strong>' +
+                                '</span>');
+                        }
+                    }
+
+                    if (result.success) {
+                        $('#modal-default').modal('hide');
+                        $('.alert-success').find('h4').html('<i class="icon fa fa-check"></i>' + result.success);
+                        $('.alert-success').show();
+                    }
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            });
         });
-    });
 
-    function resetErrorForm() {
-        $('#category-form').find('#fg-category-name').removeClass('has-error');
-        $('#category-form').find('#fg-category-type').removeClass('has-error');
-        $('#category-form').find('.help-block').remove();
-
-    }
-</script>
+        function resetForm() {
+            $('#category-name').val('');
+            $('#category-form').find('#fg-category-name').removeClass('has-error');
+            $('#category-form').find('#fg-category-type').removeClass('has-error');
+            $('#category-form').find('.help-block').remove();
+        }
+    </script>
 @endpush
