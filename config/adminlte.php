@@ -118,7 +118,6 @@ return [
             'text'        => 'Categorias de lançamento',
             'url'         => '/categories',
             'icon'        => 'file',
-            'label'       => 4,
             'label_color' => 'success',
         ],
         'ACCOUNT SETTINGS',
