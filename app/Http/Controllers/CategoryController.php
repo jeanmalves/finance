@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 use App\Rules\CategoryType;
 use Validator;
 
@@ -45,6 +46,17 @@ class CategoryController extends Controller
         {
             return response()->json(['errors'=>$validateData->errors()]);
         }
+
+        $user = auth()->user();
+        $category = new Category();
+        $category->name = $request->name;
+        $category->type = $request->type;
+
+        $category->user()->associate($user);
+
+        $category->save();
+
+        return response()->json(['success'=>'A categoria ' . $category->name . ' foi criada.']);
     }
 
     /**
