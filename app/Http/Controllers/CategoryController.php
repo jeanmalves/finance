@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Rules\CategoryType;
+use Validator;
 
 class CategoryController extends Controller
 {
@@ -34,7 +36,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'type' => ['string', new CategoryType]
+        ]);
+
+        if ($validateData->fails())
+        {
+            return response()->json(['errors'=>$validateData->errors()]);
+        }
     }
 
     /**
