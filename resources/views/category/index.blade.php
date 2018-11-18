@@ -65,20 +65,73 @@
         </div>
         <div class="box-body">
             <div class="row">
-
+                <div class="col-xs-12">
+                    <div class="box-header">
+                        <h3 class="box-title">Data Table With Full Features</h3>
+                    </div>
+                            <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="categories" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Tipo de lançamento</th>
+                                    <th>Data criação</th>
+                                    <th class="actions">&nbsp;</th>
+                                    <th class="actions">&nbsp;</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                            @foreach ($categories as $category)
+                                <tr>
+                                    <td>{{ $category->name }}</td>
+                                    <td>{{ $category->type == 'C' ? 'Entrada' : 'Saída'  }}</td>
+                                    <td>{{ $category->created_at->format('d/m/Y') }}</td>
+                                    <td>
+                                        <i class="fa fa-fw fa-edit"></i>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-fw fa-trash-o"></i>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Tipo de lançamento</th>
+                                    <th>Data criação</th>
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <!-- /.box-body -->
+                    </div>
+                   <!-- /.col -->
+                </div>
                 <!-- /.row -->
             </div>
             <!-- /.box-body -->
+        </div>
     </div>
 @stop
 @push('js')
     <script type="text/javascript">
+    $( document ).ready(function() {
         $('.alert-success').hide();
         $('.alert-success').find('h4').text('');
         $('#modal-default').on('hidden.bs.modal', function(e) {
-            console.log('grfger');
-
             resetForm();
+        });
+
+        var table = $('#categories').DataTable({
+            "columnDefs": [{
+                "targets"  : 'actions',
+                "orderable": false,
+                "order": []
+             }],
+            'lengthChange': false
         });
 
         $('#category-form').submit((e) => {
@@ -127,12 +180,13 @@
                 }
             });
         });
+    });
 
-        function resetForm() {
-            $('#category-name').val('');
-            $('#category-form').find('#fg-category-name').removeClass('has-error');
-            $('#category-form').find('#fg-category-type').removeClass('has-error');
-            $('#category-form').find('.help-block').remove();
-        }
+    function resetForm() {
+        $('#category-name').val('');
+        $('#category-form').find('#fg-category-name').removeClass('has-error');
+        $('#category-form').find('#fg-category-type').removeClass('has-error');
+        $('#category-form').find('.help-block').remove();
+    }
     </script>
 @endpush
