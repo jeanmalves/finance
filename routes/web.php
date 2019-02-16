@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/settings/edit', 'SettingsController@edit')->name('settings.edit');
 
     Route::get('/categories', 'CategoryController@index');
+    Route::get('/categories/list', 'CategoryController@list');
     Route::get('/categories/create', 'CategoryController@create');
     Route::post('/categories', 'CategoryController@store');
     Route::get('/categories/{id}', 'CategoryController@show');
