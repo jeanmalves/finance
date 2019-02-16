@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Rules\CategoryType;
 use Validator;
+use Carbon\Carbon;
 
 class CategoryController extends Controller
 {
@@ -22,13 +23,29 @@ class CategoryController extends Controller
     }
 
     /**
+     * Display a listing of the categories.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list()
+    {
+        $categories = Category::where('user_id', auth()->user()->id)
+            ->select('name', 'type', 'created_at')->get();
+
+        //auth()->user()->categories->select('id, name');
+        //dd($categories);
+
+        return response()->json($categories, 200);
+    }
+
+    /**
      * Show the form for creating a new category.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('category.create');
     }
 
     /**
@@ -46,10 +63,11 @@ class CategoryController extends Controller
 
         if ($validateData->fails())
         {
-            return response()->json(['errors'=>$validateData->errors()]);
+            return back()->with('errors', $validateData->errors());
         }
 
         $user = auth()->user();
+
         $category = new Category();
         $category->name = $request->name;
         $category->type = $request->type;
@@ -58,7 +76,7 @@ class CategoryController extends Controller
 
         $category->save();
 
-        return response()->json(['success'=>'A categoria ' . $category->name . ' foi criada.']);
+        return redirect('/categories')->with('success', 'A categoria ' . $category->name . ' foi criada.');
     }
 
     /**
