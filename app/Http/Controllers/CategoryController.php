@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Rules\CategoryType;
 use Validator;
-use Carbon\Carbon;
 
 class CategoryController extends Controller
 {
@@ -31,9 +30,6 @@ class CategoryController extends Controller
     {
         $categories = Category::where('user_id', auth()->user()->id)
             ->select('name', 'type', 'created_at')->get();
-
-        //auth()->user()->categories->select('id, name');
-        //dd($categories);
 
         return response()->json($categories, 200);
     }
